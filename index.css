@@ -4,7 +4,7 @@
 }
 
 body,
-.box {
+.overlay {
     height: 100vh;
     display: flex;
     flex-flow: column;
@@ -12,21 +12,24 @@ body,
     align-items: center;
 }
 
-.box {
+.overlay {
     width: 55%;
-    height: 35%;
+    height: 15%;
     background-color: aqua;
-    border: black solid 2px;
+    border: black solid 3px;
     border-radius: 15px;
 }
-.box .box-title {
-    font-size: 28px;
-    margin-bottom: 36px;
+.overlay .title {
+    margin-bottom: 24px;
+    font-size: 42px;
 }
-.box input {
-    width: 35%;
-    height: 10%;
+.overlay .box {
+    width: 65%;
+    height: 30%;
+    border-radius: 5px;
     padding: 0 8px;
+    font-size: 24px;
+    text-align: center;
 }
 
 /* .container {
