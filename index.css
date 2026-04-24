@@ -4,18 +4,22 @@
 }
 
 body,
-.overlay {
-    height: 100vh;
+.overlay,
+.title {
     display: flex;
     flex-flow: column;
     justify-content: center;
     align-items: center;
 }
 
+body {
+    height: 100vh;
+}
+
 .overlay {
     width: 55%;
     height: 15%;
-    min-width: 400px;
+    min-width: 480px;
     background-color: aqua;
     padding: 16px;
     border: black solid 3px;
@@ -23,6 +27,9 @@ body,
 }
 .overlay .title {
     margin: 8px 0;
+    flex: 1;
+}
+.overlay .title h1 {
     font-size: 42px;
 }
 .overlay .box {

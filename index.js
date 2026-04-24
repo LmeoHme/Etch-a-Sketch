@@ -1,4 +1,5 @@
 const inputBox = document.querySelector("#input-box");
+const inputBoxTitle = inputBox.firstElementChild.firstElementChild; 
 
 inputBox.addEventListener("keydown", (() => {
     const invalidInputCounts = [
@@ -16,7 +17,7 @@ inputBox.addEventListener("keydown", (() => {
     };
 })());
 
-// Input validation
+//#region -- Input validation
 function isNumber(input)
 {
     if (input.trim() === "") return false;
@@ -131,8 +132,9 @@ function handleOutScopeInput(outScopeInputCount, invalidInputCounts)
         inputBox.removeChild(inputBox.lastElementChild);
     }
 }
+//#endregion 
 
 function unpdateInputBoxTitle(text)
 {
-    inputBox.firstElementChild.innerText = text; 
+    inputBoxTitle.innerText = text; 
 }
