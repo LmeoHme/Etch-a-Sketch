@@ -16,20 +16,22 @@ body,
     width: 55%;
     height: 15%;
     background-color: aqua;
+    padding: 16px;
     border: black solid 3px;
     border-radius: 15px;
 }
 .overlay .title {
-    margin-bottom: 24px;
+    margin-top: 24px;
     font-size: 42px;
 }
 .overlay .box {
     width: 65%;
     height: 30%;
     border-radius: 5px;
-    padding: 0 8px;
     font-size: 24px;
     text-align: center;
+    padding: 0 8px;
+    margin-top: auto;
 }
 
 /* .container {
