@@ -1,16 +1,19 @@
 const inputBox = document.querySelector("#input-box");
-let noneNumberInputCount = 0;
-let nonePositiveInputCount = 0;
-let outScopeInputCount = 0;
 
-inputBox.addEventListener("keydown", e => {
-    if (e.key === "Enter")
-    {
-        [noneNumberInputCount, nonePositiveInputCount, outScopeInputCount] = handleInvalidInput(e.target.value, noneNumberInputCount, nonePositiveInputCount, outScopeInputCount);
-    }
-});
+inputBox.addEventListener("keydown", (() => {
+    let noneNumberInputCount = 0;
+    let nonePositiveInputCount = 0;
+    let outScopeInputCount = 0;
+    return e => {
+        if (e.key === "Enter")
+        {
+            [noneNumberInputCount, nonePositiveInputCount, outScopeInputCount] = handleInvalidInput(e.target.value, noneNumberInputCount, nonePositiveInputCount, outScopeInputCount);
+        }
+        // inputBox.lastElementChild = "";
+    };
+})());
 
-// Inputv validation
+// Input validation
 function isNumber(input)
 {
     if (input.trim() === "") return false;
@@ -88,7 +91,7 @@ function handleOutScopeInput(outScopeInputCount)
     }
     else if (outScopeInputCount === 2) 
     {
-        unpdateInputBoxTitle("To be honest, a reading course is perfect fit for you sir");
+        unpdateInputBoxTitle("To be honest, a reading course is perfect for you");
         return ++outScopeInputCount;
     }
     else 
