@@ -6,9 +6,9 @@ const grid = document.querySelector("#grid");
 const gridTitle = grid.firstElementChild;
 const gridContainer = grid.lastElementChild;
 
-// toggleGridOff()
+toggleGridOff()
 
-(() => {inputBox.classList.toggle("hidden");document.body.setAttribute("style", "height: auto");})();
+// (() => {inputBox.classList.toggle("hidden");document.body.setAttribute("style", "height: auto");})();
 
 inputBox.addEventListener("keydown", (() => {
     const invalidInputCounts = [
@@ -28,16 +28,7 @@ inputBox.addEventListener("keydown", (() => {
     };
 })());
 
-let i = 0;
 
-gridContainer.addEventListener("mouseover", e =>{
-    if (e.target && e.target.nodeName === "DIV")
-    {
-        // e.stopPropagation();
-        console.log(i++);
-        e.target.style.backgroundColor = `rgb(${getRandomRGB()}, ${getRandomRGB()}, ${getRandomRGB()})`;
-    }
-});
 
 // Functions
 function toggleGridOff()
@@ -50,14 +41,6 @@ function toggleGridOn()
 {
     grid.classList.toggle("hidden");
     document.body.setAttribute("style", "height: auto");
-}
-
-function handleGrid(quantity)
-{
-    inputBox.remove();
-    toggleGridOn();
-    drawGrid(quantity);
-    unpdateGridTitle(`A ${quantity} x ${quantity} grid`);
 }
 
 //#region -- Input validation
@@ -189,6 +172,15 @@ function unpdateGridTitle(text)
 }
 
 //#region -- Grid Logics
+function handleGrid(quantity)
+{
+    inputBox.remove();
+    toggleGridOn();
+    drawGrid(quantity);
+    unpdateGridTitle(`A ${quantity} x ${quantity} grid`);
+}
+
+    // -- Grid Drawing
 function calculateSquareSide(quantity)
 {
     let width = 0;
@@ -232,12 +224,45 @@ function drawGrid(quantity)
     }
 }
 
+// -- Change Squares Color
+gridContainer.addEventListener("mouseover", e =>{
+    if (e.target && e.target.nodeName === "DIV")
+    {
+        e.stopPropagation();
+        changeSquaresColor(e);
+    }
+});
+
 function getRandomRGB()
 {
     return Math.floor(Math.random() * 255 + 1);
 }
 
+function changeSquaresColor(e)
+{
+    if (e.target.style.opacity === "0") return;
+    e.target.style.backgroundColor = `rgb(${getRandomRGB()}, ${getRandomRGB()}, ${getRandomRGB()})`;
+    changeSquareOpacity(e);
+}
 
-drawGrid(10);
+function changeSquareOpacity(e)
+{
+    if (!e.target.dataset.listenerAttached)
+    {
+        e.target.addEventListener("mouseenter", (() =>{
+            let interactTime = 0;
+            return e => {
+                if (interactTime > 10) return;
+                interactTime = decreaseOpacity(e, interactTime);
+            };
+        })());
+        e.target.dataset.listenerAttached = true;
+    }
+}
 
+function decreaseOpacity(e, interactTime)
+{
+    e.target.style.opacity = (100 - interactTime * 10) / 100;
+    return ++interactTime;
+}
 //#endregion
