@@ -6,10 +6,9 @@ const grid = document.querySelector("#grid");
 const gridTitle = grid.firstElementChild;
 const gridContainer = grid.lastElementChild;
 
-// toggleGridOn()
-toggleGridOff()
+// toggleGridOff()
 
-// (() => {inputBox.classList.toggle("hidden");document.body.setAttribute("style", "height: auto");})();
+(() => {inputBox.classList.toggle("hidden");document.body.setAttribute("style", "height: auto");})();
 
 inputBox.addEventListener("keydown", (() => {
     const invalidInputCounts = [
@@ -24,16 +23,23 @@ inputBox.addEventListener("keydown", (() => {
         {
             validInput = handleInput(e.target.value, invalidInputCounts);
             inputArea.value = "";
-            if (validInput !== undefined)
-            {
-                inputBox.remove();
-                toggleGridOn();
-                drawGrid(validInput);
-            }
+            if (validInput !== undefined) handleGrid(validInput);
         }
     };
 })());
 
+let i = 0;
+
+gridContainer.addEventListener("mouseover", e =>{
+    if (e.target && e.target.nodeName === "DIV")
+    {
+        // e.stopPropagation();
+        console.log(i++);
+        e.target.style.backgroundColor = `rgb(${getRandomRGB()}, ${getRandomRGB()}, ${getRandomRGB()})`;
+    }
+});
+
+// Functions
 function toggleGridOff()
 {
     grid.classList.toggle("hidden");
@@ -44,6 +50,14 @@ function toggleGridOn()
 {
     grid.classList.toggle("hidden");
     document.body.setAttribute("style", "height: auto");
+}
+
+function handleGrid(quantity)
+{
+    inputBox.remove();
+    toggleGridOn();
+    drawGrid(quantity);
+    unpdateGridTitle(`A ${quantity} x ${quantity} grid`);
 }
 
 //#region -- Input validation
@@ -163,6 +177,7 @@ function handleOutScopeInput(outScopeInputCount, invalidInputCounts)
 }
 //#endregion 
 
+    // Update Titles
 function unpdateInputBoxTitle(text)
 {
     inputBoxTitle.innerText = text; 
@@ -172,13 +187,8 @@ function unpdateGridTitle(text)
 {
     gridTitle.innerText = text;
 }
-// feat: Add matrix drawing logic.
 
-// Three functions, one take the input validated form before as quantity
-// of squares in 1 line of the martix, then set the width and height for a
-// single square. One draw it, and one draw the whole martix with input
-// -rows and input-columns
-
+//#region -- Grid Logics
 function calculateSquareSide(quantity)
 {
     let width = 0;
@@ -222,3 +232,12 @@ function drawGrid(quantity)
     }
 }
 
+function getRandomRGB()
+{
+    return Math.floor(Math.random() * 255 + 1);
+}
+
+
+drawGrid(10);
+
+//#endregion

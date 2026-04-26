@@ -66,15 +66,17 @@ body {
 .grid .grid-container {
     width: 1080px;
     height: 1080px;
-    background-color: aqua;
-    border-radius: .5%;
+    background-color: rgb(0, 0, 0, 85%);
+    border-radius: 5px;
     padding: 4px;
     flex-flow: wrap;
     gap: 4px;
     align-content: flex-start;
 }
 .grid .grid-container div {
-    background-color: black;
-    border-radius: 5%;
+    box-sizing: border-box;
+    background-color: rgb(255, 255, 255);
+    border-radius: 3%;
+    padding: -10px;
     flex: 0 0 auto;
 }
