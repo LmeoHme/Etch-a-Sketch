@@ -3,10 +3,22 @@
     padding: 0;
 }
 
+.hidden {
+    display: none !important;
+}
+
 body,
 .overlay,
-.title {
+.overlay-title,
+.grid,
+.grid-container {
     display: flex;
+}
+
+body,
+.overlay,
+.overlay-title,
+.grid {
     flex-flow: column;
     justify-content: center;
     align-items: center;
@@ -16,6 +28,7 @@ body {
     height: 100vh;
 }
 
+/* -- Input box -- */
 .overlay {
     width: 55%;
     height: 15%;
@@ -25,14 +38,15 @@ body {
     border: black solid 3px;
     border-radius: 15px;
 }
-.overlay .title {
+.overlay .overlay-title {
     margin: 8px 0;
     flex: 1;
 }
-.overlay .title h1 {
+.overlay .overlay-title h1 {
     font-size: 42px;
+    text-align: center;
 }
-.overlay .box {
+.overlay .overlay-box {
     width: 65%;
     height: 30%;
     border-radius: 5px;
@@ -41,9 +55,24 @@ body {
     padding: 0 8px;
     margin-top: auto;
 }
+/* --  -- */
 
-/* .container {
+/* -- Grid  -- */
+.grid .grid-title {
+    font-size: 56px;
+}
+.grid-container {
     width: 960px;
-    height: 960px;
+    height: 860px;
     background-color: aqua;
-} */
+    flex-flow: wrap;
+    gap: 8px;
+    justify-content: space-evenly;
+    align-content: flex-start;
+}
+.grid-container div {
+    width: 200px;
+    height: 200px;
+    background-color: black;
+    flex: 0 0 auto;
+}

@@ -1,19 +1,33 @@
 const inputBox = document.querySelector("#input-box");
 const inputBoxTitle = inputBox.firstElementChild.firstElementChild; 
+const inputArea = inputBox.lastElementChild;
+
+const grid = document.querySelector("#grid");
+
+// inputBox.classList.toggle("hidden");
+grid.classList.toggle("hidden");
 
 inputBox.addEventListener("keydown", (() => {
     const invalidInputCounts = [
-        {name: "noneNumberInputCount", value: 0},        
-        {name: "noneIntegerInputCount", value: 0},        
-        {name: "nonePositiveInputCount", value: 0},        
-        {name: "outScopeInputCount", value: 0}        
+        {name: "noneNumberInputCount", value: 0},
+        {name: "noneIntegerInputCount", value: 0},
+        {name: "nonePositiveInputCount", value: 0},
+        {name: "outScopeInputCount", value: 0}
     ];
+    let validInput;
     return e => {
         if (e.key === "Enter")
         {
-            handleInvalidInput(e.target.value, invalidInputCounts);
+            validInput = handleInput(e.target.value, invalidInputCounts);
+            inputArea.value = "";
+            if (validInput !== undefined)
+            {
+                inputBox.remove();
+                document.body.setAttribute("style", "height: auto");
+                grid.classList.toggle("hidden");
+
+            }
         }
-        // inputBox.lastElementChild = "";
     };
 })());
 
@@ -25,7 +39,7 @@ function isNumber(input)
     else return false;
 }
 
-function handleInvalidInput(input, invalidInputCounts)
+function handleInput(input, invalidInputCounts)
 {
     if (!isNumber(input)) handleNoneNumberInput(invalidInputCounts[0].value, invalidInputCounts);
     else if (!Number.isInteger(+input)) handleNoneIntegerInput(invalidInputCounts[1].value, invalidInputCounts);
@@ -33,7 +47,7 @@ function handleInvalidInput(input, invalidInputCounts)
         {
             if (input <= 0) handleNonePositiveInput(invalidInputCounts[2].value, invalidInputCounts);
             else if (input > 100) handleOutScopeInput(invalidInputCounts[3].value, invalidInputCounts);
-            else return;
+            else return input;
         }   
 }
 
@@ -138,3 +152,17 @@ function unpdateInputBoxTitle(text)
 {
     inputBoxTitle.innerText = text; 
 }
+
+function drawGrid()
+{
+    let width = 0;
+    let height = 0;
+    return () => {
+        
+    }
+
+}
+
+// document.createElement("div").setAttribute(
+//     "style", 
+// );
