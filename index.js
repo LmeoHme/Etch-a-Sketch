@@ -3,9 +3,13 @@ const inputBoxTitle = inputBox.firstElementChild.firstElementChild;
 const inputArea = inputBox.lastElementChild;
 
 const grid = document.querySelector("#grid");
+const gridTitle = grid.firstElementChild;
+const gridContainer = grid.lastElementChild;
 
-// inputBox.classList.toggle("hidden");
-grid.classList.toggle("hidden");
+// toggleGridOn()
+toggleGridOff()
+
+// (() => {inputBox.classList.toggle("hidden");document.body.setAttribute("style", "height: auto");})();
 
 inputBox.addEventListener("keydown", (() => {
     const invalidInputCounts = [
@@ -23,13 +27,24 @@ inputBox.addEventListener("keydown", (() => {
             if (validInput !== undefined)
             {
                 inputBox.remove();
-                document.body.setAttribute("style", "height: auto");
-                grid.classList.toggle("hidden");
-
+                toggleGridOn();
+                drawGrid(validInput);
             }
         }
     };
 })());
+
+function toggleGridOff()
+{
+    grid.classList.toggle("hidden");
+    document.body.setAttribute("style", "height: 100vh");
+}
+
+function toggleGridOn()
+{
+    grid.classList.toggle("hidden");
+    document.body.setAttribute("style", "height: auto");
+}
 
 //#region -- Input validation
 function isNumber(input)
@@ -153,16 +168,57 @@ function unpdateInputBoxTitle(text)
     inputBoxTitle.innerText = text; 
 }
 
-function drawGrid()
+function unpdateGridTitle(text)
+{
+    gridTitle.innerText = text;
+}
+// feat: Add matrix drawing logic.
+
+// Three functions, one take the input validated form before as quantity
+// of squares in 1 line of the martix, then set the width and height for a
+// single square. One draw it, and one draw the whole martix with input
+// -rows and input-columns
+
+function calculateSquareSide(quantity)
 {
     let width = 0;
     let height = 0;
-    return () => {
-        
-    }
 
+    let gap = parseInt(getComputedStyle(gridContainer).getPropertyValue("gap"));
+    let containerWidth = parseInt(getComputedStyle(gridContainer).width);
+    let containerHeight = parseInt(getComputedStyle(gridContainer).height);
+    
+// The width of the container (excluding padding) equal to the width of all squares 
+// in 1 single line + the gaps between them:
+// Container sides = quantity * single square sides + (quantity - 1) * gaps
+// ==>
+
+    width = ((containerWidth + gap) / quantity) - gap;
+    height = ((containerHeight + gap) / quantity) - gap;
+
+    return [width, height];
 }
 
-// document.createElement("div").setAttribute(
-//     "style", 
-// );
+function drawSquare(width, height)
+{
+    const square = document.createElement("div");
+    square.setAttribute(
+        "style", 
+        `width: ${width}px;
+        height: ${height}px`
+    );
+    gridContainer.appendChild(square);
+}
+
+function drawGrid(quantity)
+{
+    const squareSide = calculateSquareSide(quantity);
+    for (let i = 0; i < quantity; i++)
+    {
+        for (let j = 0; j < quantity; j++)
+        {
+            drawSquare(...squareSide);
+        }
+    }
+}
+

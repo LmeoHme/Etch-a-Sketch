@@ -26,6 +26,7 @@ body,
 
 body {
     height: 100vh;
+    padding: 16px;
 }
 
 /* -- Input box -- */
@@ -60,19 +61,20 @@ body {
 /* -- Grid  -- */
 .grid .grid-title {
     font-size: 56px;
+    margin: 32px 0;
 }
-.grid-container {
-    width: 960px;
-    height: 860px;
+.grid .grid-container {
+    width: 1080px;
+    height: 1080px;
     background-color: aqua;
+    border-radius: .5%;
+    padding: 4px;
     flex-flow: wrap;
-    gap: 8px;
-    justify-content: space-evenly;
+    gap: 4px;
     align-content: flex-start;
 }
-.grid-container div {
-    width: 200px;
-    height: 200px;
+.grid .grid-container div {
     background-color: black;
+    border-radius: 5%;
     flex: 0 0 auto;
 }
