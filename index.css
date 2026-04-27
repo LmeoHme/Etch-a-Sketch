@@ -27,6 +27,7 @@ body,
 body {
     height: 100vh;
     padding: 16px;
+    background-color: lightblue;
 }
 
 /* -- Input box -- */
