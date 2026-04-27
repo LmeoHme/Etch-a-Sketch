@@ -32,7 +32,7 @@ body {
 /* -- Input box -- */
 .overlay {
     width: 55%;
-    height: 15%;
+    height: 20%;
     min-width: 480px;
     background-color: aqua;
     padding: 16px;

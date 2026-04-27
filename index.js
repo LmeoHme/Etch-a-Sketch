@@ -12,9 +12,9 @@ toggleGridOff()
 
 inputBox.addEventListener("keydown", (() => {
     const invalidInputCounts = [
-        {name: "noneNumberInputCount", value: 0},
-        {name: "noneIntegerInputCount", value: 0},
-        {name: "nonePositiveInputCount", value: 0},
+        {name: "nonNumberInputCount", value: 0},
+        {name: "nonIntegerInputCount", value: 0},
+        {name: "nonPositiveInputCount", value: 0},
         {name: "outScopeInputCount", value: 0}
     ];
     let validInput;
@@ -53,32 +53,41 @@ function isNumber(input)
 
 function handleInput(input, invalidInputCounts)
 {
-    if (!isNumber(input)) handleNoneNumberInput(invalidInputCounts[0].value, invalidInputCounts);
-    else if (!Number.isInteger(+input)) handleNoneIntegerInput(invalidInputCounts[1].value, invalidInputCounts);
+    if (!isNumber(input)) handleNonNumberInput(invalidInputCounts[0].value, invalidInputCounts);
+    else if (!Number.isInteger(+input)) handleNonIntegerInput(invalidInputCounts[1].value, invalidInputCounts);
     else 
         {
-            if (input <= 0) handleNonePositiveInput(invalidInputCounts[2].value, invalidInputCounts);
-            else if (input > 100) handleOutScopeInput(invalidInputCounts[3].value, invalidInputCounts);
+            let forcedInput;
+            if (input <= 0) 
+            {
+                forcedInput = handlenonPositiveInput(invalidInputCounts[2].value, invalidInputCounts);
+                if (forcedInput === "forced") handleGrid(input);
+            }
+            else if (input > 100) 
+            {
+                forcedInput = handleOutScopeInput(invalidInputCounts[3].value, invalidInputCounts);
+                if (forcedInput === "forced") handleGrid(input);
+            }
             else return input;
         }   
 }
 
-function handleNoneNumberInput(noneNumberInputCount, invalidInputCounts)
+function handleNonNumberInput(nonNumberInputCount, invalidInputCounts)
 {
-    if (noneNumberInputCount === 0)
+    if (nonNumberInputCount === 0)
     {
         unpdateInputBoxTitle("Please enter a number");
-        invalidInputCounts[0].value = ++noneNumberInputCount;
+        invalidInputCounts[0].value = ++nonNumberInputCount;
     }
-    else if (noneNumberInputCount === 1) 
+    else if (nonNumberInputCount === 1) 
     {
         unpdateInputBoxTitle("NUMBER!");
-        invalidInputCounts[0].value = ++noneNumberInputCount;
+        invalidInputCounts[0].value = ++nonNumberInputCount;
     }
-    else if (noneNumberInputCount === 2) 
+    else if (nonNumberInputCount === 2) 
     {
         unpdateInputBoxTitle("If you do that 1 more time");
-        invalidInputCounts[0].value = ++noneNumberInputCount;
+        invalidInputCounts[0].value = ++nonNumberInputCount;
     }
     else 
     {
@@ -87,51 +96,47 @@ function handleNoneNumberInput(noneNumberInputCount, invalidInputCounts)
     }
 }
 
-function handleNoneIntegerInput(noneIntegerInputCount, invalidInputCounts)
+function handleNonIntegerInput(nonIntegerInputCount, invalidInputCounts)
 {
-    if (noneIntegerInputCount === 0)
+    if (nonIntegerInputCount === 0)
     {
         unpdateInputBoxTitle("If you confused, an integer is number without decimal");
-        invalidInputCounts[1].value = ++noneIntegerInputCount;
+        invalidInputCounts[1].value = ++nonIntegerInputCount;
     }
-    else if (noneIntegerInputCount === 1) 
+    else if (nonIntegerInputCount === 1) 
     {
         unpdateInputBoxTitle("May be your problem is not knowledge");
-        invalidInputCounts[1].value = ++noneIntegerInputCount;
+        invalidInputCounts[1].value = ++nonIntegerInputCount;
     }
-    else if (noneIntegerInputCount === 2) 
+    else if (nonIntegerInputCount === 2) 
     {
-        unpdateInputBoxTitle("(ꐦ • ᴗ •)");
-        invalidInputCounts[1].value = ++noneIntegerInputCount;
-    }
-    else 
-    {
-        unpdateInputBoxTitle("( ,,⩌'︿'⩌ꐦ,,)");
+        unpdateInputBoxTitle("To be honest, a reading course is perfect for you");
         inputBox.removeChild(inputBox.lastElementChild);
     }
 }
 
-function handleNonePositiveInput(nonePositiveInputCount, invalidInputCounts)
+// Need update from here !!
+
+function handlenonPositiveInput(nonPositiveInputCount, invalidInputCounts)
 {
-    if (nonePositiveInputCount === 0)
+    if (nonPositiveInputCount === 0)
     {
         unpdateInputBoxTitle("Positive number, please!");
-        invalidInputCounts[2].value = ++nonePositiveInputCount;
+        invalidInputCounts[2].value = ++nonPositiveInputCount;
     }
-    else if (nonePositiveInputCount === 1) 
+    else if (nonPositiveInputCount === 1) 
     {
         unpdateInputBoxTitle("P - O - S - I - T - I - V - E");
-        invalidInputCounts[2].value = ++nonePositiveInputCount;
+        invalidInputCounts[2].value = ++nonPositiveInputCount;
     }
-    else if (nonePositiveInputCount === 2) 
+    else if (nonPositiveInputCount === 2) 
     {
         unpdateInputBoxTitle("ヽ(#`Д´)ﾉ");
-        invalidInputCounts[2].value = ++nonePositiveInputCount;
+        invalidInputCounts[2].value = ++nonPositiveInputCount;
     }
     else 
     {
-        unpdateInputBoxTitle("( ,,⩌'︿'⩌ꐦ,,)");
-        inputBox.removeChild(inputBox.lastElementChild);
+        return "forced";
     }
 }
 
@@ -149,13 +154,12 @@ function handleOutScopeInput(outScopeInputCount, invalidInputCounts)
     }
     else if (outScopeInputCount === 2) 
     {
-        unpdateInputBoxTitle("To be honest, a reading course is perfect for you");
+        unpdateInputBoxTitle("Well! At least I try");
         invalidInputCounts[3].value = ++outScopeInputCount;
     }
     else 
     {
-        unpdateInputBoxTitle("( ,,⩌'︿'⩌ꐦ,,)");
-        inputBox.removeChild(inputBox.lastElementChild);
+        return "forced";
     }
 }
 //#endregion 
@@ -177,7 +181,9 @@ function handleGrid(quantity)
     inputBox.remove();
     toggleGridOn();
     drawGrid(quantity);
-    unpdateGridTitle(`A ${quantity} x ${quantity} grid`);
+    if (quantity <= 0) unpdateGridTitle(`A ${parseInt(quantity)} x ${parseInt(quantity)} grid as you wish!`);
+    else if (quantity > 100) unpdateGridTitle("𓁹‿𓁹");
+    else unpdateGridTitle(`A ${parseInt(quantity)} x ${parseInt(quantity)} grid`);
 }
 
     // -- Grid Drawing
@@ -224,11 +230,10 @@ function drawGrid(quantity)
     }
 }
 
-// -- Change Squares Color
+    // -- Change Squares Color
 gridContainer.addEventListener("mouseover", e =>{
     if (e.target && e.target.nodeName === "DIV")
     {
-        e.stopPropagation();
         changeSquaresColor(e);
     }
 });
@@ -245,10 +250,16 @@ function changeSquaresColor(e)
     changeSquareOpacity(e);
 }
 
+    // -- Change Squares Opacity
 function changeSquareOpacity(e)
 {
     if (!e.target.dataset.listenerAttached)
     {
+
+// Add Event Listener to every specific div instead of delegation because i want every child have
+// their own counter varibale, which means you need 10 iteractions for each child div to make it 
+// completely fade
+
         e.target.addEventListener("mouseenter", (() =>{
             let interactTime = 0;
             return e => {
